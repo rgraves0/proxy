@@ -1,20 +1,17 @@
 const http = require('http');
 const httpProxy = require('http-proxy');
 
-// Proxy server တစ်ခု ဖန်တီးတယ်
 const proxy = httpProxy.createProxyServer({});
 
-// HTTP server တစ်ခု စတင်တယ်
 const server = http.createServer((req, res) => {
     console.log(`Request received: ${req.url}`);
-    // Proxy ကနေ သတ်မှတ်ထားတဲ့ target ဆီ ပို့မယ်
     proxy.web(req, res, {
-        target: 'https://example.com', // ဒီနေရာမှာ သင်လိုချင်တဲ့ website ကို ထည့်ပါ
+        target: 'https://youtube.com', // သင်လိုချင်တဲ့ target URL
     });
 });
 
-// Server ကို port 3000 မှာ စတင်တယ်
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
+// PORT ကို Railway က ပေးတဲ့ env variable ကနေ ယူမယ်၊ မရရင် 80 ကို default ထားမယ်
+const PORT = process.env.PORT || 80;
+server.listen(PORT, '0.0.0.0', () => {
     console.log(`Proxy server running on port ${PORT}`);
 });
